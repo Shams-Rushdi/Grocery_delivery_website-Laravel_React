@@ -204,7 +204,7 @@ img {
 							<span class="review-no"></span>
 						</div>
 						<p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
-						<h4 class="price">current price: <span>{{ $products->price }}</span> Per Kg</h4>
+						<h4 class="price">current price: <span id="amount">{{ $products->price }}</span> Per Kg</h4>
 						<p class="vote"><strong></strong> <strong></strong></p>
 <br><br><br>
 						<h5 class="colors">Quantity:(kg)
@@ -221,7 +221,13 @@ img {
                                           <span class="glyphicon glyphicon-minus"></span>
                                         </button>
                                     </span>
-                                    <input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">
+                                    <form action="{{route('products.addtocart',$products->id)}}" id="form">
+                                      @csrf
+                                     
+                                    <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                                    </form>
+
+                                    
                                     <span class="input-group-btn">
                                         <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
                                             <span class="glyphicon glyphicon-plus"></span>
@@ -233,7 +239,7 @@ img {
 </div>
 						</h5>
 						<div class="action">
-            <td><a href="{{route('products.addtocart',['id'=>$products->id, 'quantity'=>$products->quantity])}}" class="btn  btn-primary" > Add to cart</a></td>
+            <td><a href="javaScript:void()" onClick='$("#form").submit()' class="btn  btn-primary" > Add to cart</a></td>
 							
 						</div>
 					</div>
@@ -259,8 +265,9 @@ var quantitiy=0;
         
         // If is not undefined
             
-            $('#quantity').val(quantity + 1);
+            var item = $('#quantity').val(quantity + 1);
 
+          $('#amount').text($('#quantity').val()*parseInt('{{ $products->price }}')) ;
           
             // Increment
         

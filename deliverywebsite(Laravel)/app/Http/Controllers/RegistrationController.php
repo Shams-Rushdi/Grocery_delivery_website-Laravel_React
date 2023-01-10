@@ -193,16 +193,17 @@ class RegistrationController extends Controller
     }
 
     
-    public function addtocart(Request $req){
-        $id = $req->id;
+    public function addtocart(Request $req,$id){
+        
         $p = Product::where('id',$id)->first();
         $cart=[];
         if(session()->has('cart')){
             $cart = json_decode(session()->get('cart'));
         }
-        $product = array('id'=>$id,'picture'=>$p->picture,'quantity'=>1 ,'name'=>$p->name,'price'=>$p->price);
+        $product = array('id'=>$id,'picture'=>$p->picture,'quantity'=>$req->quantity ,'name'=>$p->name,'price'=>$p->price);
         $cart[] = (object)($product);
         $jsonCart = json_encode($cart);
+        
         session()->put('cart',$jsonCart);
         //return session()->get('cart');
        //return redirect()->route('products.list');
